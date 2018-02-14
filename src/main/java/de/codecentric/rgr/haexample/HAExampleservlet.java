@@ -11,6 +11,7 @@ import java.io.IOException;
 
 /**
  * Created by markeastman on 11/08/2016.
+ *
  */
 @WebServlet(value="/haexample", name="haexample-servlet")
 public class HAExampleServlet  extends GenericServlet {
