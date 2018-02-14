@@ -24,7 +24,7 @@ parameters:
   displayName: Image Version
   name: IMAGE_NAME
   required: true
-  value: eap-cluster-openshift
+  value: haexample
 - description: The version of the application image to use.
   displayName: Image Version
   name: IMAGE_VERSION
