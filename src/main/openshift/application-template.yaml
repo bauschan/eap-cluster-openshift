@@ -1,0 +1,158 @@
+apiVersion: v1
+kind: Template
+labels:
+  template: application-template
+message: |-
+  A pipeline definition, that will delegate the pipeline itself to the pipeline defined
+  in the git repository.
+metadata:
+  annotations:
+    openshift.io/display-name: EAP Cluster Openshift
+    description: |-
+      This example showcases the delegation of the pipeline itself into the git Repository. It will
+      create a Jenkins Pipeline that will process the actual code from the git Repository of the application.
+    iconClass: java
+    tags: instant-app,jenkins
+  name: jenkins-pipeline-example
+parameters:
+- description: The name assigned to all of the frontend objects defined in this template.
+  displayName: Name
+  name: APPLICATION_NAME
+  required: true
+  value: eap-cluster-openshift
+- description: The version of the application image to use.
+  displayName: Image Version
+  name: IMAGE_NAME
+  required: true
+  value: eap-cluster-openshift
+- description: The version of the application image to use.
+  displayName: Image Version
+  name: IMAGE_VERSION
+  required: true
+  value: 1.0.1
+objects:
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    generation: 1
+    labels:
+      app: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}
+  spec:
+    replicas: 1
+    selector:
+      app: ${APPLICATION_NAME}
+      deploymentconfig: ${APPLICATION_NAME}
+    strategy:
+      activeDeadlineSeconds: 21600
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          app: ${APPLICATION_NAME}
+          deploymentconfig: ${APPLICATION_NAME}
+      spec:
+        containers:
+        - image: openshift/origin-pod
+          imagePullPolicy: IfNotPresent
+          name: ${APPLICATION_NAME}
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 9990
+            protocol: TCP
+          - containerPort: 8888
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          env:
+            - name: JGROUPS_PING_PROTOCOL
+              value: openshift.KUBE_PING
+            - name: OPENSHIFT_KUBE_PING_NAMESPACE
+              value: lift-and-openshift-ri
+            - name: OPENSHIFT_KUBE_PING_LABELS
+              value: app=lift-and-openshift-ri
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 3
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 120
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 3
+          volumeMounts:
+            - name: config
+              mountPath: "/etc/myconfig"
+              readOnly: true
+        volumes:
+          - name: config
+            secret:
+              secretName: ${APPLICATION_NAME}-config
+              value: eap-cluster-openshift
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    test: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - ${APPLICATION_NAME}
+        from:
+          kind: ImageStreamTag
+          name: ${IMAGE_NAME}:${IMAGE_VERSION}
+      type: ImageChange
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}
+  spec:
+    ports:
+    - name: http-tcp
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: ${APPLICATION_NAME}
+      deploymentconfig: ${APPLICATION_NAME}
+    sessionAffinity: None
+    type: ClusterIP
+- apiVersion: v1
+  kind: Route
+  metadata:
+    annotations:
+      openshift.io/host.generated: "true"
+    name: ${APPLICATION_NAME}
+  spec:
+    port:
+      targetPort: http-tcp
+    to:
+      kind: Service
+      name: ${APPLICATION_NAME}
+      weight: 100
+    wildcardPolicy: None
