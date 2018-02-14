@@ -77,9 +77,9 @@ objects:
             - name: JGROUPS_PING_PROTOCOL
               value: openshift.KUBE_PING
             - name: OPENSHIFT_KUBE_PING_NAMESPACE
-              value: lift-and-openshift-ri
+              value: eap-cluster-openshift
             - name: OPENSHIFT_KUBE_PING_LABELS
-              value: app=lift-and-openshift-ri
+              value: app=eap-sampleapp-stage
           readinessProbe:
             failureThreshold: 3
             httpGet:
