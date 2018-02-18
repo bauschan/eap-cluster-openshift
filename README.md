@@ -1,4 +1,4 @@
-# lift-and-openshift-ri
+# leap-cluster-openshift
 
 A sample app to be deployed on openshift environments
 
@@ -20,7 +20,7 @@ If you want to use MiniShift please use at least 12 GB of RAM:
 First, login and create a project:
 
         oc login
-        oc new-project lift-and-openshift-ri --display-name="Lift & OpenShift - Reference Implementation"
+        oc new-project eap-cluster-openshift --display-name="OpenShift - EAP Cluster Reference Implementation"
 
  To setup the pipeline, process the template into cluster. This will create a pipeline which will use the Jenkinsfile from the git repository for further processing:
 
