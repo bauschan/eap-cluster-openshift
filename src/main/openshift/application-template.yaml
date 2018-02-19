@@ -63,7 +63,6 @@ objects:
         - image: openshift/origin-pod
           imagePullPolicy: IfNotPresent
           name: ${APPLICATION_NAME}
-          serviceAccount: default
           ports:
           - containerPort: 8080
             protocol: TCP
