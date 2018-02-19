@@ -77,7 +77,7 @@ objects:
             - name: OPENSHIFT_KUBE_PING_NAMESPACE
               value: eap-cluster-openshift
             - name: OPENSHIFT_KUBE_PING_LABELS
-              value: app=eap-sampleapp-stage
+              value: application=eap-sampleapp-stage
           readinessProbe:
             failureThreshold: 3
             httpGet:
