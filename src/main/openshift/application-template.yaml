@@ -39,7 +39,7 @@ objects:
       app: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
   spec:
-    replicas: 2
+    replicas: 1
     selector:
       app: ${APPLICATION_NAME}
       deploymentconfig: ${APPLICATION_NAME}
@@ -67,6 +67,9 @@ objects:
           - containerPort: 8080
             protocol: TCP
           - containerPort: 9990
+            protocol: TCP
+          - containerPort: 8888
+            name: ping
             protocol: TCP
           resources: {}
           terminationMessagePath: /dev/termination-log
