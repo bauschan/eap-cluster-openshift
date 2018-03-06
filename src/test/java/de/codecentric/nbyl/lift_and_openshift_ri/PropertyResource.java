@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import static io.restassured.RestAssured.get;
 
-public class PropertyResourceAT {
+public class PropertyResource {
 
     @BeforeClass
     public static void configureBaseUrl() {
