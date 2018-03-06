@@ -2,9 +2,7 @@ package de.codecentric.rgr.haexample;
 
 
 import org.junit.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -42,16 +40,16 @@ public class HAExampleServletAT {
         // driver.navigate().to("http://www.google.com");
 
         // Find the text input element by its name
-        WebElement element = driver.findElement(By.name("q"));
+        //WebElement element = driver.findElement(By.name("q"));
 
         // Enter something to search for
-        element.sendKeys("Cheese!");
+        //element.sendKeys("Cheese!");
 
         // Now submit the form. WebDriver will find the form for us from the element
-        element.submit();
+        //element.submit();
 
         // Check the title of the page
-        System.out.println("Page title is: " + driver.getTitle());
+        System.out.println("Page Source is: " + driver.getPageSource());
 
         // Google's search is rendered dynamically with JavaScript.
         // Wait for the page to load, timeout after 10 seconds
