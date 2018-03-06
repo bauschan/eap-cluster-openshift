@@ -42,9 +42,21 @@ try {
                 }
             }
 
+            stage('Integration Test - deploy selenium') {
+                dir('scm') {
+                    sh("oc process -f src/main/openshift/selenium-standalone-chrome.yaml | oc apply -f -")
+                }
+            }
+
             stage('Integration Test - run tests') {
                 dir('scm') {
-                    sh("mvn -B org.apache.maven.plugins:maven-failsafe-plugin:integration-test org.apache.maven.plugins:maven-failsafe-plugin:verify -P acceptance-test -DacceptanceTest.baseUri=http://eap-sampleapp-stage")
+                    sh("mvn -B org.apache.maven.plugins:maven-failsafe-plugin:integration-test org.apache.maven.plugins:maven-failsafe-plugin:verify -P acceptance-test -DacceptanceTest.hubUrl=http://xxxx:4444/wd/hub -DacceptanceTest.baseUrl=http://eap-sampleapp-stage/haexapmple")
+                }
+            }
+
+            stage('Integration Test - deploy selenium') {
+                dir('scm') {
+                    sh("oc process -f src/main/openshift/selenium-standalone-chrome.yaml | oc delete -f -")
                 }
             }
 
