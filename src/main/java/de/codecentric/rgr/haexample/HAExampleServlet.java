@@ -12,6 +12,8 @@ import java.io.IOException;
 /**
  * Created by markeastman on 11/08/2016.
  *
+ * Running with local docker Selenium
+ * docker run -d -p 4444:4444 --name selenium-standalone-chrome selenium/standalone-chrome:latest
  */
 @WebServlet(value="/haexample", name="haexample-servlet")
 public class HAExampleServlet  extends GenericServlet {

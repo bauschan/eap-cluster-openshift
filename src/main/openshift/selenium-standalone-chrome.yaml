@@ -41,16 +41,6 @@ objects:
       ports:
       - containerPort: 4444
         protocol: TCP
-- apiVersion: v1
-  kind: Route
-  metadata:
-    annotations:
-      openshift.io/host.generated: "true"
-    name: selenium-standalone-chrome
-  spec:
-    to:
-      kind: Service
-      name: selenium-standalone-chrome
 parameters:
   - name: JAVA_OPTS
     description: Options to pass to the java command

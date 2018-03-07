@@ -60,7 +60,7 @@ public class HAExampleServletAT {
         });
 
         // Should see: "cheese! - Google Search"
-        System.out.println("Page title is: " + driver.getPageSource());
+        //System.out.println("Page title is: " + driver.getPageSource());
 
         //Close the browser
         driver.quit();
