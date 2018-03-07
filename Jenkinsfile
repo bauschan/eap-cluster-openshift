@@ -50,7 +50,7 @@ try {
 
             stage('Integration Test - run tests') {
                 dir('scm') {
-                    sh("mvn -B org.apache.maven.plugins:maven-failsafe-plugin:integration-test org.apache.maven.plugins:maven-failsafe-plugin:verify -P acceptance-test -DacceptanceTest.hubUrl=http://selenium-standalone-chrome:4444/wd/hub -DacceptanceTest.baseUrl=http://eap-sampleapp-stage-eap-cluster-openshift.192.168.64.6.nip.io/haexample")
+                    sh("mvn -B org.apache.maven.plugins:maven-failsafe-plugin:integration-test org.apache.maven.plugins:maven-failsafe-plugin:verify -P acceptance-test -DacceptanceTest.hubUrl=http://selenium-standalone-chrome:4444/wd/hub -DacceptanceTest.baseUrl=http://eap-sampleapp-stage:8080/haexample")
                 }
             }
 
