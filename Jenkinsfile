@@ -19,8 +19,8 @@ try {
                     checkout scm
                     releaseVersion = getVersion()
 
-                    sh("mvn -B org.codehaus.mojo:versions-maven-plugin:2.2:set -U -DnewVersion=${releaseVersion}")
-                    sh('mvn -B package fabric8:build -Popenshift')
+                    sh("./mvnw -B org.codehaus.mojo:versions-maven-plugin:2.2:set -U -DnewVersion=${releaseVersion}")
+                    sh('./mvnw -B package fabric8:build -Popenshift')
                 }
             }
 
@@ -50,7 +50,7 @@ try {
 
             stage('Integration Test - run tests') {
                 dir('scm') {
-                    sh("mvn -B org.apache.maven.plugins:maven-failsafe-plugin:integration-test org.apache.maven.plugins:maven-failsafe-plugin:verify -P acceptance-test -DacceptanceTest.hubUrl=http://selenium-standalone-chrome:4444/wd/hub -DacceptanceTest.baseUrl=http://eap-sampleapp-stage/haexample")
+                    sh("./mvnw -B org.apache.maven.plugins:maven-failsafe-plugin:integration-test org.apache.maven.plugins:maven-failsafe-plugin:verify -P acceptance-test -DacceptanceTest.hubUrl=http://selenium-standalone-chrome:4444/wd/hub -DacceptanceTest.baseUrl=http://eap-sampleapp-stage/haexample")
                 }
             }
 
