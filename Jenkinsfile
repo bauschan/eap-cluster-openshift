@@ -57,11 +57,11 @@ try {
 
             }
 
-            stage('Integration Test - undeploy selenium') {
-                dir('scm') {
-                    sh("oc process -f src/main/openshift/selenium-standalone-chrome.yaml | oc delete -f -")
-                }
-            }
+            //stage('Integration Test - undeploy selenium') {
+            //    dir('scm') {
+            //        sh("oc process -f src/main/openshift/selenium-standalone-chrome.yaml | oc delete -f -")
+            //    }
+            //}
 
             stage('Integration Test - teardown stage') {
                 dir('scm') {
