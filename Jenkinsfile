@@ -51,7 +51,7 @@ try {
             stage('Integration Test - run tests') {
                 dir('scm') {
                     sh("./mvnw -B org.apache.maven.plugins:maven-failsafe-plugin:integration-test org.apache.maven.plugins:maven-failsafe-plugin:verify -P acceptance-test -DacceptanceTest.hubUrl=http://selenium-standalone-chrome:4444/wd/hub -DacceptanceTest.baseUrl=http://eap-sampleapp-stage/haexample")
-                    archiveArtifacts artifacts: '**/*.xml'
+                    archiveArtifacts artifacts: '**/*.xml', fingerprint: true
 
                 }
 
