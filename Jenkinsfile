@@ -51,17 +51,17 @@ try {
             stage('Integration Test - run tests') {
                 dir('scm') {
                     sh("./mvnw -B org.apache.maven.plugins:maven-failsafe-plugin:integration-test org.apache.maven.plugins:maven-failsafe-plugin:verify -P acceptance-test -DacceptanceTest.hubUrl=http://selenium-standalone-chrome:4444/wd/hub -DacceptanceTest.baseUrl=http://eap-sampleapp-stage/haexample")
-                    archiveArtifacts artifacts: '**/*.xml', fingerprint: true
-
+                    archiveArtifacts artifacts: 'target/failsafe-reports/*.*', fingerprint: true
+                    junit 'target/failsafe-reports/*.xml'
                 }
 
             }
 
-            //stage('Integration Test - undeploy selenium') {
-            //    dir('scm') {
-            //        sh("oc process -f src/main/openshift/selenium-standalone-chrome.yaml | oc delete -f -")
-            //    }
-            //}
+            stage('Integration Test - undeploy selenium') {
+                dir('scm') {
+                    sh("oc process -f src/main/openshift/selenium-standalone-chrome.yaml | oc delete -f -")
+                }
+            }
 
             stage('Integration Test - teardown stage') {
                 dir('scm') {
