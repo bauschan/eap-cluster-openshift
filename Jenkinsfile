@@ -52,7 +52,7 @@ try {
                 dir('scm') {
                     sh("./mvnw -B org.apache.maven.plugins:maven-failsafe-plugin:integration-test org.apache.maven.plugins:maven-failsafe-plugin:verify -P acceptance-test -DacceptanceTest.hubUrl=http://selenium-standalone-chrome:4444/wd/hub -DacceptanceTest.baseUrl=http://eap-sampleapp-stage/haexample")
                     archiveArtifacts artifacts: 'target/failsafe-reports/*.*', fingerprint: true
-                    junitJUnitResultArchiver testResults: 'target/failsafe-reports/*.xml'
+                    JUnitResultArchiver testResults: 'target/failsafe-reports/*.xml'
                 }
 
             }
