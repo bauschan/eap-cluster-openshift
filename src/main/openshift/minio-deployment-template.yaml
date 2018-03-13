@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: minio-template
+  annotations:
+    description: "Description"
+    iconClass: "icon-minio"
+    tags: "database,nosql"
+objects:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    name: minio-server
+    labels:
+      type: minio
+      app: minio-server
+  spec:
+    containers:
+    - env:
+      - name: REDIS_PASSWORD
+        value: ${REDIS_PASSWORD}
+      image: icereed/openshift-minio
+      name: master
+      ports:
+      - containerPort: 9000
+        protocol: TCP
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: minio-server
+    name: minio-server
+  spec:
+    type: ClusterIP
+    ports:
+    - name: web
+      port: 9000
+      targetPort: 9000
+      protocol: TCP
+    selector:
+      app: minio-server
+- apiVersion: v1
+  kind: Route
+  metadata:
+    annotations:
+      openshift.io/host.generated: "true"
+    name: minio-server
+  spec:
+    port:
+      targetPort: web
+    to:
+      kind: Service
+      name: minio-server
+      weight: 100
+    wildcardPolicy: None
+parameters:
+- description: Password used for Redis authentication
+  from: '[A-Z0-9]{8}'
+  generate: expression
+  name: REDIS_PASSWORD
+labels:
+  redis: master
