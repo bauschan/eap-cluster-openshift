@@ -24,12 +24,12 @@ parameters:
   displayName: Git Repository URL
   name: SOURCE_REPOSITORY_URL
   required: true
-  value: https://github.com/RGregulla/eap-cluster-openshift.git
+  value: https://github.com/bauschan/eap-cluster-openshift.git
 - description: The Branch to build.
   displayName: Branch
   name: BRANCH
   required: true
-  value: master
+  value: develop
 objects:
 - apiVersion: v1
   kind: BuildConfig
